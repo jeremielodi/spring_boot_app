@@ -52,6 +52,9 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
+  // authentification, l'utilisateur envois le username et password pour se
+  // connecter
+  // authentication, the user sends the username and password to connect
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -75,6 +78,7 @@ public class AuthController {
         roles));
   }
 
+  // Creation d'un utilisateur par l'admin
   @PostMapping("/signup")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
@@ -93,7 +97,9 @@ public class AuthController {
     // Create new user's account
     User user = new User(signUpRequest.getUsername(),
         signUpRequest.getEmail(),
-        encoder.encode(signUpRequest.getPassword()));
+        encoder.encode(signUpRequest.getPassword()),
+        signUpRequest.getDisplayname(),
+        signUpRequest.getPhone());
 
     Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();

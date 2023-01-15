@@ -41,17 +41,21 @@ INSERT INTO `transactions`(`amount`, `gain`, `commission`, `account_id`, `is_exi
 
 /* ADMIN
 {
-    "username" : "Jeremie LODI",
+    "username" : "jeremielodi@gmail.com",
     "email": "jeremielodi@gmail.com",
     "role": ["admin"],
-    "password":"123456"
+    "password":"123456",
+    "displayname" : "Jeremie LODI",
+    "phone": "+243812537702"
 }
 
 / other users
 {
     "username" : "Mayele",
     "email": "mayele@gmail.com",
-    "password":"tester"
+    "password":"tester",
+    "displayname" : "Mayele",
+    "phone": "+243812010101"
 }
 
 

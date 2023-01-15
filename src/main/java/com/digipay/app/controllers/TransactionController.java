@@ -12,7 +12,6 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -109,6 +108,7 @@ public class TransactionController {
         return ResponseEntity.badRequest().body(map1);
       }
 
+      // Vérifions si les comptes ont le même identifiant de devise
       // let check is the to accounts have the same currency id
       int agentAccountCurrencyId = agent.get().getAccount().getCurrency().getId();
       int userAccountCurrencyId = userAccount.get().getCurrency().getId();
@@ -121,6 +121,8 @@ public class TransactionController {
         return ResponseEntity.badRequest().body(map1);
       }
 
+      // seuls les administrateurs peuvent mouvementer le compte d'une autre personne
+      // (user)
       // only admins can move other person's account
       if (!connectedUser.get().hasRole(ERole.ROLE_ADMIN)) {
 
@@ -171,7 +173,7 @@ public class TransactionController {
       transfert.setToTransaction(agentTransaction);
       transfertRepository.save(transfert);
 
-      // return la reference de la transaction cree pour l'utilisateur(client)
+      // return la reference de la transaction cree pour l'utilisateur(user)
       HashMap<String, Object> map = new HashMap<>();
       map.put("status", 1);
       map.put("code", 200);
@@ -187,6 +189,7 @@ public class TransactionController {
     }
   }
 
+  // processus pour transferer l'argent d'un compte A un autre
   @PostMapping("/transfert")
   @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
   @Transactional(rollbackOn = Exception.class)
@@ -307,6 +310,10 @@ public class TransactionController {
     }
   }
 
+  /*
+   * Liste des transaction pour un compte donné
+   * List of transactions for a given account
+   */
   @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
   @GetMapping("/listForUser")
   public ResponseEntity<?> getTransactionsProcess(@RequestParam String acountId) {
@@ -334,9 +341,9 @@ public class TransactionController {
       return ResponseEntity.ok(ListMap);
     } catch (Exception e) {
       System.out.println(e.getMessage());
+      HashMap<String, Object> errMap = new HashMap<>();
+      return ResponseEntity.badRequest().body(errMap);
     }
-    HashMap<String, Object> errMap = new HashMap<>();
-    return ResponseEntity.badRequest().body(errMap);
 
   }
 }

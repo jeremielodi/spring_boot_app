@@ -63,6 +63,14 @@ public class User {
     this.password = password;
   }
 
+  public User(String username, String email, String password, String displayname, String phone) {
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.phone = phone;
+    this.displayname = displayname;
+  }
+
   public Long getId() {
     return id;
   }

@@ -115,4 +115,33 @@ public class AccountController {
         }
 
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<?> userAccounts(@PathVariable String userId) {
+        try {
+            Long _userId = Long.valueOf(userId);
+            List<Account> accounts = accountRepository.findByUserId(_userId);
+            List<HashMap<String, Object>> ListMap = new ArrayList<>();
+            for (int i = 0; i < accounts.size(); i++) {
+                Account currentAccount = accounts.get(i);
+                Double currenctBalance = transactionRepository.accountBalance(currentAccount.getId());
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("accountId", currentAccount.getId());
+                map.put("accountNumber", currentAccount.getAccountNumber());
+                map.put("accountTitle", currentAccount.getAccountTitle());
+                map.put("balance", currenctBalance);
+                map.put("currencyId", currentAccount.getCurrency().getId());
+                map.put("currencySymbol", currentAccount.getCurrency().getSymbol());
+                ListMap.add(map);
+            }
+            return ResponseEntity.ok(ListMap);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // TODO: handle exception
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+    }
 }
