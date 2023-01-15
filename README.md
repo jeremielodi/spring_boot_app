@@ -27,7 +27,6 @@ Pour cet exemple, nous a la table :
 
 <img src='./screens/schema.PNG'>
 
-http://localhost:8080/swagger-ui/index.htmt
 
 ## Creation de la base de donnees
 J'ai utilisé ```Mysql 8```
