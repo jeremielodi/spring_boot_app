@@ -47,3 +47,8 @@ Dans le dossier ```sql``` du project, vous aller trouver les script nécessaire 
 
 ## Test des API en utilisation swagger 3
 http://localhost:8080/swagger-ui/index.html
+
+## Autres
+Il faut signaler que j'ai utilisé ce bout de code trouver sur le net, puis j'ai personnalisé.
+
+https://github.com/bezkoder/spring-boot-spring-security-jwt-authentication.git 
