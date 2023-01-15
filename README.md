@@ -1,7 +1,7 @@
 
-# Description du teste
+# Description du micro service
 <p>
-Pour ce teste, j'ai créé une base de donnée d'exemple.<br/> Il faut noter que j'ai juste pris un cas très simple juste pour démontrer comment on peut créé un micro-service en utilisant le framework  <b>Spring Boot</b>.
+Pour ce test, j'ai créé une base de donnée d'exemple.<br/> Il faut noter que j'ai juste pris un cas très simple juste pour démontrer comment on peut créé un micro-service en utilisant le framework  <b>Spring Boot</b>.
 </p>
 <p>
 Concernant la persistance des donnée j'ai utilisé <b>MySQL</b> comme SGBD.
@@ -12,7 +12,7 @@ Concernant la persistance des donnée j'ai utilisé <b>MySQL</b> comme SGBD.
 Pour cet exemple, nous avons la table : 
 - <b>users</b> : Qui va contenir les information de tout utilisateur de l'application, je considère que tout personne aura besoin d'un compte utilisateur.
 
-- <b>agents</b> : Cette table contiendra les infos spécifique pour les utilisateur qui auront le compte agent, juste pour nous aider à faire le retrait auprès d'un agent. Donc un agent est un utilisateur qui a un compte et un numero agent...
+- <b>agents</b> : Cette table contiendra les infos spécifiques pour les utilisateur qui auront le compte agent, juste pour nous aider à faire le retrait auprès d'un agent. Donc un agent est un utilisateur qui a un compte et un numero agent...
 
 - <b>Roles</b> Comme tous les utilisateur nom pas le meme permission dans l'application, cette table nous permet de distinguer les utilisateurs. Vous trouverez pour certains API cette vérification...
 ```@PreAuthorize("hasRole('ADMIN')")```
@@ -26,8 +26,10 @@ Pour cet exemple, nous avons la table :
 </p>
 
 <img src='./screens/schema.PNG'>
+<b>
+Vous remarquerez aussi que j'ai plus utiliser les identifiants auto-increment dans plusieurs tables, ce juste pour faciliter l'evaluateur à lire les données. Généralement j'utiliser les uuid... 
 
-
+</b>
 ## Creation de la base de donnees
 J'ai utilisé ```Mysql 8```
 
