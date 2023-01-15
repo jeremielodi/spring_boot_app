@@ -98,6 +98,7 @@ public class TransactionController {
       // verification si balance insuffisant
       Long accountId = userAccount.get().getId();
       Double currenctBalance = transactionRepository.accountBalance(accountId);
+
       if (transactionAmount > currenctBalance) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);

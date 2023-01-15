@@ -13,14 +13,14 @@ import com.digipay.app.models.Transactions;
 public interface TransactionRepository extends JpaRepository<Transactions, Long> {
     Optional<Transactions> findByReferenceNumber(String referenceNumber);
 
-    @Query(value = "SELECT (x.deposits - x.withdrawals) AS balance " +
+    @Query(value = "SELECT IFNULL((x.deposits - x.withdrawals), 0) AS balance " +
             "FROM (" +
             "SELECT " +
 
             " SUM(IF(is_exit=0, amount, 0)) as deposits, " +
             " SUM(IF(is_exit=1, amount, 0)) as withdrawals " +
 
-            "FROM transactions WHERE account_id = 1) AS x ", nativeQuery = true)
+            "FROM transactions WHERE account_id = :accountId) AS x ", nativeQuery = true)
     public Double accountBalance(Long accountId);
 
     @Query(value = "SELECT * FROM transactions WHERE account_id=:accountId", nativeQuery = true)
