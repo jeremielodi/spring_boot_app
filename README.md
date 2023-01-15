@@ -34,7 +34,9 @@ J'ai utilisé ```Mysql 8```
 
 Dans le dossier ```sql``` du project, vous aller trouver les script nécessaire pour créer l'utilisateur qui va nous permettre d'avoir accès à  la base de données  (```db-user.sql```), le schema (```schema.sql```), bien que JPA peut aussi le faire et enregistrer les données de test (```data.sql```)
 
-<img src='./screens/sql.PNG'>
+<img src='./screens/sql.PNG' height='200'>
+
+<br/>
 
 ### Information sur accès à la base de données dans ```Spring boot```
 <img src='./screens/dbname.PNG'>
@@ -44,9 +46,12 @@ Dans le dossier ```sql``` du project, vous aller trouver les script nécessaire 
 
 ```$ mvn spring-boot:run```
 
+<br/>
 
 ## Test des API en utilisation swagger 3
 http://localhost:8080/swagger-ui/index.html
+
+<br/>
 
 ## Autres
 Il faut signaler que j'ai utilisé ce bout de code trouver sur le net, puis j'ai personnalisé.
