@@ -9,7 +9,7 @@ Concernant la persistance des donnée j'ai utilisé <b>MySQL</b> comme SGBD.
 
 <p>
 
-Pour cet exemple, nous a la table : 
+Pour cet exemple, nous avons la table : 
 - <b>users</b> : Qui va contenir les information de tout utilisateur de l'application, je considère que tout personne aura besoin d'un compte utilisateur.
 
 - <b>agents</b> : Cette table contiendra les infos spécifique pour les utilisateur qui auront le compte agent, juste pour nous aider à faire le retrait auprès d'un agent. Donc un agent est un utilisateur qui a un compte et un numero agent...
