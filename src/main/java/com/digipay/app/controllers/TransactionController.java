@@ -317,10 +317,10 @@ public class TransactionController {
    */
   @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
   @GetMapping("/listForUser/{accountId}")
-  public ResponseEntity<?> getTransactionsProcess(@RequestParam String acountId) {
+  public ResponseEntity<?> getTransactionsProcess(@RequestParam String accountId) {
     try {
 
-      Long selectedAccountId = Long.valueOf(acountId);
+      Long selectedAccountId = Long.valueOf(accountId);
       List<Transactions> lists = transactionRepository.findByAccountId(selectedAccountId);
       List<HashMap<String, Object>> ListMap = new ArrayList<>();
       for (int i = 0; i < lists.size(); i++) {
