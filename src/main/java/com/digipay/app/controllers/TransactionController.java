@@ -1,4 +1,3 @@
-
 package com.digipay.app.controllers;
 
 import java.sql.Timestamp;
@@ -61,9 +60,11 @@ public class TransactionController {
   @Autowired
   TransfertRepository transfertRepository;
 
-  final Double gainFeePourcentage = 0.2;
-  final Double commissionFeePourcentage = 0.1;
+  // pourcentage d'argent additionnel pour chaque transaction
+  final Double gainFeePourcentage = 0.02;
+  final Double commissionFeePourcentage = 0.009;
 
+  // Operation de retrait d'argent
   @PostMapping("/withdrawal")
   @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
   @Transactional(rollbackOn = Exception.class)
@@ -90,7 +91,7 @@ public class TransactionController {
       if (connectedUser.isEmpty() || agent.isEmpty() || userAccount.isEmpty()) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 400);
+        map1.put("code", 4000);
         map1.put("message", "User, agent or Account not found");
         return ResponseEntity.badRequest().body(map1);
       }
@@ -102,10 +103,18 @@ public class TransactionController {
       if (transactionAmount > currenctBalance) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 401);
+        map1.put("code", 4001);
         map1.put("message", "insufficient balance");
         map1.put("balance", currenctBalance);
         map1.put("transactionAmount", Utils.roundToString(transactionAmount, 2));
+        return ResponseEntity.badRequest().body(map1);
+      }
+
+      if (userAccount.get().getId().equals(agent.get().getAccount().getId())) {
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("status", 0);
+        map1.put("code", 4002);
+        map1.put("message", "Both accounts are the same");
         return ResponseEntity.badRequest().body(map1);
       }
 
@@ -117,7 +126,7 @@ public class TransactionController {
       if (agentAccountCurrencyId != userAccountCurrencyId) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 402);
+        map1.put("code", 4003);
         map1.put("message", "Accounts must have the currency");
         return ResponseEntity.badRequest().body(map1);
       }
@@ -130,7 +139,7 @@ public class TransactionController {
         if (!Objects.equals(userAccount.get().getUser().getId(), connectedUser.get().getId())) {
           HashMap<String, Object> map1 = new HashMap<>();
           map1.put("status", 0);
-          map1.put("code", 403);
+          map1.put("code", 4004);
           map1.put("message", "Only admins can move other person's account");
           return ResponseEntity.badRequest().body(map1);
         }
@@ -213,24 +222,31 @@ public class TransactionController {
       Optional<Account> toAccount = accountRepository.findByAccountNumber(transfertRequest.getToAccountNumber());
 
       Double gain = gainFeePourcentage * amount; // (Frais d'envois ou de retrait) le cout pour l'operation, gain
-                                                 // pour digipay
+      // pour digipay
       Double transactionAmount = amount + gain;
 
       if (connectedUser.isEmpty() || fromAccount.isEmpty() || toAccount.isEmpty()) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 400);
+        map1.put("code", 4000);
         map1.put("message", "User or one of Accounts not found");
         return ResponseEntity.badRequest().body(map1);
       }
 
-      // verification si balance insuffisant
+      if (fromAccount.get().getId().equals(toAccount.get().getId())) {
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("status", 0);
+        map1.put("code", 4001);
+        map1.put("message", "Both accounts are the same");
+        return ResponseEntity.badRequest().body(map1);
+      }
 
+      // verification si balance insuffisant
       Double currenctBalance = transactionRepository.accountBalance(fromAccount.get().getId());
       if (transactionAmount > currenctBalance) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 401);
+        map1.put("code", 4002);
         map1.put("message", "insufficient balance");
         map1.put("balance", currenctBalance);
         map1.put("transactionAmount", transactionAmount);
@@ -244,7 +260,7 @@ public class TransactionController {
       if (fromCurrencyId != toCurrencyId) {
         HashMap<String, Object> map1 = new HashMap<>();
         map1.put("status", 0);
-        map1.put("code", 402);
+        map1.put("code", 4003);
         map1.put("message", "Accounts must have the currency");
         return ResponseEntity.badRequest().body(map1);
       }
@@ -255,7 +271,7 @@ public class TransactionController {
         if (!Objects.equals(fromAccount.get().getUser().getId(), connectedUser.get().getId())) {
           HashMap<String, Object> map1 = new HashMap<>();
           map1.put("status", 0);
-          map1.put("code", 403);
+          map1.put("code", 4004);
           map1.put("message", "Only admins can move other person's account");
           return ResponseEntity.badRequest().body(map1);
         }
@@ -282,7 +298,7 @@ public class TransactionController {
       toTransaction.setAccount(toAccount.get());
       toTransaction.setUser(connectedUser.get());
       toTransaction.setAmount(amount);
-      toTransaction.setDescription(ETransactionType.COMMISSION_FEE.toString());
+      toTransaction.setDescription(ETransactionType.DEPOSIT.toString() + "_FROM_TRANSFER");
       toTransaction.setIsExit(0);
       toTransaction.setGain(0.0);
       toTransaction.setCommission(0.0);
@@ -349,5 +365,43 @@ public class TransactionController {
       return ResponseEntity.badRequest().body(errMap);
     }
 
+  }
+
+  /**
+   * juste pour calculer les frais liés à la transaction
+   */
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  @GetMapping("/fees/{amount}")
+  public ResponseEntity<?> otherFees(@PathVariable Double amount) {
+    try {
+
+      Double transferGain = gainFeePourcentage * amount;
+
+      // pour digipay
+      Double transferTransactionAmount = amount + transferGain;
+      HashMap<String, Object> transferMap = new HashMap<>();
+      transferMap.put("amount", amount);
+      transferMap.put("fees", transferGain);
+      transferMap.put("total", transferTransactionAmount);
+
+      Double wdCommissionFee = commissionFeePourcentage * amount;
+      Double wdGain = gainFeePourcentage * amount; // gain de digipay pour l'operation
+      Double wdtransactionAmount = amount + wdCommissionFee + wdGain;
+
+      HashMap<String, Object> withdrawalMap = new HashMap<>();
+      withdrawalMap.put("amount", amount);
+      withdrawalMap.put("commission", wdCommissionFee);
+      withdrawalMap.put("fees", wdGain);
+      withdrawalMap.put("total", wdtransactionAmount);
+
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("transfer", transferMap);
+      map.put("withdrawal", withdrawalMap);
+
+      return ResponseEntity.ok(map);
+    } catch (Exception e) {
+      HashMap<String, Object> errMap = new HashMap<>();
+      return ResponseEntity.badRequest().body(errMap);
+    }
   }
 }
