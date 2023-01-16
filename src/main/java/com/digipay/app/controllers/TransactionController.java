@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digipay.app.models.Account;
@@ -329,6 +328,8 @@ public class TransactionController {
         Currency currency = t.getAccount().getCurrency();
         HashMap<String, Object> map = new HashMap<>();
         map.put("accountId", t.getAccount().getId());
+        map.put("accountNumber", t.getAccount().getAccountNumber());
+        map.put("accountTitle", t.getAccount().getAccountTitle());
         map.put("amount", t.getAmount());
         map.put("commission", t.getCommission());
         map.put("currencyId", currency.getId());
