@@ -19,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -315,9 +316,9 @@ public class TransactionController {
    * Liste des transaction pour un compte donné
    * List of transactions for a given account
    */
-  @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   @GetMapping("/listForUser/{accountId}")
-  public ResponseEntity<?> getTransactionsProcess(@RequestParam String accountId) {
+  public ResponseEntity<?> getTransactionsProcess(@PathVariable String accountId) {
     try {
 
       Long selectedAccountId = Long.valueOf(accountId);
