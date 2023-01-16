@@ -29,8 +29,8 @@ INSERT INTO `accounts`(`id`, `account_number`, `account_title`, `currency_id`, `
 
 
 INSERT INTO `agents`(`id`, `agent_number`, `name`, `account_id`, `user_id`)VALUES
-(1, '2300678', 'JOHN DOE', 3, 3),
-(2, '4300158', 'JOHN DOE', 4, 3);
+(1, '2300678', 'JOHN DOE', 3, 3), -- USD
+(2, '4300158', 'JOHN DOE', 4, 3); -- CFA
 
 INSERT INTO `transactions`(`amount`, `gain`, `commission`, `account_id`, `is_exit`,  `reference_number`, `user_id`, `transaction_type`, `description`, `from_transfert`, `created_at`) VALUES
 (200, 0.2, 0.1, 2, 0, '1000000001', 1,  'DEPOSIT', 'Depot creation compte', 0, '2023-01-01 07:30:00');
