@@ -327,6 +327,7 @@ public class TransactionController {
         Transactions t = lists.get(i);
         Currency currency = t.getAccount().getCurrency();
         HashMap<String, Object> map = new HashMap<>();
+        map.put("transactionId", t.getId());
         map.put("accountId", t.getAccount().getId());
         map.put("accountNumber", t.getAccount().getAccountNumber());
         map.put("accountTitle", t.getAccount().getAccountTitle());
