@@ -116,7 +116,7 @@ public class AccountController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     @GetMapping("/list/{userId}")
     public ResponseEntity<?> userAccounts(@PathVariable String userId) {
         try {

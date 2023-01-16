@@ -316,7 +316,7 @@ public class TransactionController {
    * List of transactions for a given account
    */
   @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
-  @GetMapping("/listForUser")
+  @GetMapping("/listForUser/{accountId}")
   public ResponseEntity<?> getTransactionsProcess(@RequestParam String acountId) {
     try {
 
