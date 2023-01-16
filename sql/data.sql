@@ -10,9 +10,9 @@ INSERT INTO roles(NAME) VALUE('ROLE_USER');
 
 
 INSERT INTO `users` (`id`,`displayname`, `email`, `username`, `password`) VALUES 
-(1, 'Jeremie LODI', 'jeremielodi@gmail.com', 'jeremielodi@gmail.com', '$2a$10$YfyHW9aaIV9o/L8Hz8Keour6/aKI.MTL52ScXVo0q/.YPpVOGUNn6'),
-(2, 'Mayele', 'mayele@gmail.com', 'mayele@gmail.com', '$2a$10$lxliH24uH4mb3pUUSkHu8OR.B00Noepat6XUsBKHx2WVrcFkU/PXq'),
-(3, 'John Doe', 'agent@digipay.org', 'agent@digipay.org', '$2a$10$YfyHW9aaIV9o/L8Hz8Keour6/aKI.MTL52ScXVo0q/.YPpVOGUNn6');
+(1, 'Jeremie LODI', 'jeremielodi@gmail.com', 'jeremielodi@gmail.com', '$2a$10$YfyHW9aaIV9o/L8Hz8Keour6/aKI.MTL52ScXVo0q/.YPpVOGUNn6'), -- 123456 comme mot de passe
+(2, 'Mayele', 'mayele@gmail.com', 'mayele@gmail.com', '$2a$10$lxliH24uH4mb3pUUSkHu8OR.B00Noepat6XUsBKHx2WVrcFkU/PXq'), -- tester comme mot de passe
+(3, 'John Doe', 'agent@digipay.org', 'agent@digipay.org', '$2a$10$YfyHW9aaIV9o/L8Hz8Keour6/aKI.MTL52ScXVo0q/.YPpVOGUNn6'); -- 123456 comme mot de passe
 
 
 INSERT INTO `user_roles`(`user_id`,`role_id`) VALUE 

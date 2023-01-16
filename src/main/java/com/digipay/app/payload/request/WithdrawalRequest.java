@@ -1,6 +1,7 @@
 package com.digipay.app.payload.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class WithdrawalRequest {
 
@@ -13,6 +14,7 @@ public class WithdrawalRequest {
     private String agentNumber;
 
     @NotBlank
+    @Size(max = 250)
     private String description;
 
     public String getAmount() {

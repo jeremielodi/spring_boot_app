@@ -1,6 +1,7 @@
 package com.digipay.app.payload.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class TransfertRequest {
 
@@ -14,6 +15,7 @@ public class TransfertRequest {
     private String amount;
 
     @NotBlank
+    @Size(max = 250)
     private String description;
 
     public String getAmount() {
