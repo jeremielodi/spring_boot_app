@@ -22,7 +22,7 @@ Pour cet exemple, nous avons la table :
 
 - <b>Transactions</b> : Pour enregistrer les opérations de retrait ou transfert d'argent, nous allons stocker ces données ici. Le montant, la date, le type de transaction, que utilisateur qui a realisé l'operation, le cout de la commission, le gain pour l'entreprise pour cette transaction.
 
-- <b>Transfert</b> : Comme certaine opertations impliques plusieurs comptes compte, on poura avec cette table définir la provenance de l'argent..
+- <b>Transfert</b> : Comme certaine opertations impliquent plusieurs comptes compte, on poura avec cette table définir la provenance de l'argent..
 </p>
 
 <img src='./screens/schema.PNG'>
