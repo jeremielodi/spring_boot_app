@@ -30,8 +30,9 @@ Pour cet exemple, nous avons la table :
 Vous remarquerez aussi que j'ai plus utiliser les identifiants auto-increment dans plusieurs tables, ce juste pour faciliter l'evaluateur à lire les données. Généralement j'utiliser les uuid... 
 
 </b>
+
 ## Creation de la base de donnees
-J'ai utilisé ```Mysql 8```
+J'ai utilisé ```Mysql  8.0.21```
 
 
 Dans le dossier ```sql``` du project, vous aller trouver les scripts nécessaires pour créer l'utilisateur qui va nous permettre d'avoir accès à  la base de données  (```db-user.sql```), le schema (```schema.sql```), bien que JPA peut aussi le faire et enregistrer les données de test (```data.sql```)
